@@ -10,9 +10,9 @@ pipeline {
 
     environment {
         SCANNER_HOME = tool 'sonar-scanner'
-        DOCKER_IMAGE = 'kastrov/bms:latest'
-        EKS_CLUSTER_NAME = 'kastro-eks'
-        AWS_REGION = 'us-east-1'
+        DOCKER_IMAGE = 'vijay5677/bms:latest'
+        EKS_CLUSTER_NAME = 'vijay-eks'
+        AWS_REGION = 'ap-south-1'
     }
 
     stages {
@@ -24,7 +24,7 @@ pipeline {
 
         stage('Checkout from Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/KastroVKiran/Book-My-Show.git'
+                git branch:'main', url: 'https://github.com/vijay2988/Book-My-Show.git'
                 sh 'ls -la'  // Verify files after checkout
             }
         }
@@ -62,13 +62,6 @@ pipeline {
                     exit 1
                 fi
                 '''
-            }
-        }
-
-        stage('OWASP FS Scan') {
-            steps {
-                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
 
@@ -127,7 +120,7 @@ pipeline {
                 body: "Project: ${env.JOB_NAME}<br/>" +
                       "Build Number: ${env.BUILD_NUMBER}<br/>" +
                       "URL: ${env.BUILD_URL}<br/>",
-                to: 'kastrokiran@gmail.com',
+                to: 'vijayvarma.indukuri9@gmail.com',
                 attachmentsPattern: 'trivyfs.txt'
         }
     }
